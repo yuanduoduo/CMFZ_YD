@@ -67,6 +67,7 @@ public class UserController {
             map.put("message", "添加成功！！！");
         } catch (Exception e) {
             e.printStackTrace();
+
             map.put("success", false);
             map.put("message", "添加失败！！！");
         }
