@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <insert id="insert" parameterType="Album">
+      insert into CMFZ_album  values (null, #{title}, #{publishDate}, #{count}, #{coverImg}, #{star}, #{author}, #{broadCast}, #{brief})
+    </insert>
+    <delete id="delete" parameterType="String">
+      delete from CMFZ_album where id=#{id}
+    </delete>
+    <update id="update" parameterType="Album">
+      update CMFZ_album set  title=#{title}, publishDate=#{publishDate}, count=#{count}, coverImg=#{coverImg}, star=#{star}, author=#{author}, broadCast=#{broadCast}, brief=#{brief}  where id=#{id}
+    </update>
+    <resultMap id="s1" type="Album">
+        <id property="id" column="a_id"/>
+        <result property="title" column="a_title"/>
+        <result property="publishDate" column="publishDate"/>
+        <result property="count" column="a_count"/>
+        <result property="coverImg" column="coverImg"/>
+        <result property="star" column="star"/>
+        <result property="author" column="author"/>
+        <result property="broadCast" column="broadCast"/>
+        <result property="brief" column="brief"/>
+        <collection property="children" ofType="Chapter">
+            <!--#{id}, #{title}, #{size}, #{duration}, #{downPath}, #{uploadTime}, #{album_id}-->
+            <id property="id" column="c_id"/>
+            <result property="title" column="c_title"/>
+            <result property="size" column="c_size"/>
+            <result property="duration" column="duration"/>
+            <result property="downPath" column="downPath"/>
+            <result property="uploadTime" column="uploadTime"/>
+            <result property="album_id" column="album_id"/>
+        </collection>
+    </resultMap>
+    <select id="queryAll" resultMap="s1">
+      select a.id a_id, a.title a_title,
+             a.publishDate publishDate,
+             a.count a_count, a.coverImg coverImg,
+             a.star star, a.author author,
+             a.broadCast broadCast, a.brief brief,
+             c.id c_id,c.title c_title,c.size c_size,
+             c.duration duration,c.downPath downPath,c.uploadTime uploadTime,c.album_id album_id
+      from CMFZ_album a
+      left join CMFZ_chapter c
+      on a.id=c.album_id
+    </select>
+    <select id="queryOne" parameterType="Album" resultType="Album">
+      select id, title, publishDate, count, coverImg, star, author, broadCast, brief from CMFZ_album
+      where id=#{id}
+    </select>
+    <select id="queryByPage" resultMap="s1">
+      select a.id a_id, a.title a_title,
+             a.publishDate publishDate,
+             a.count a_count, a.coverImg coverImg,
+             a.star star, a.author author,
+             a.broadCast broadCast, a.brief brief,
+             c.id c_id,c.title c_title,c.size c_size,
+             c.duration duration,c.downPath downPath,c.uploadTime uploadTime,c.album_id album_id
+      from CMFZ_album a
+      left join CMFZ_chapter c
+      on a.id=c.album_id
+      limit #{start},#{rows}
+    </select>
+    <select id="queryTotals" resultType="Long">
+        select count(id) from CMFZ_album
+    </select>
+</mapper>

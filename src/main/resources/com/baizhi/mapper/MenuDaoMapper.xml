@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.MenuDao">
+    <resultMap id="s1" type="Menu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="iconCls" property="iconCls"/>
+        <result column="href" property="href"/>
+        <collection property="children" ofType="Menu">
+            <id column="mids" property="id"/>
+            <result column="mname" property="name"/>
+            <result column="mid" property="mid"/>
+            <result column="miconCls" property="iconCls"/>
+            <result column="mhref" property="href"/>
+        </collection>
+    </resultMap>
+    <select id="queryAll" resultMap="s1">
+        select p.id,p.name,p.iconCls,p.href,
+			   c.id as mids,c.name as mname,c.mid,
+			   c.iconCls as miconCls,c.href as mhref
+			   from CMFZ_menu p
+			   inner join CMFZ_menu c
+			   on p.id=c.mid
+			   order by p.id asc
+        </select>
+</mapper>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ChapterDao">
+    <insert id="insert" parameterType="Chapter">
+        insert into CMFZ_chapter values (#{id}, #{title}, #{size}, #{duration}, #{downPath}, #{uploadTime}, #{album_id});
+    </insert>
+    <delete id="delete" parameterType="String">
+        delete from CMFZ_chapter where id=#{id}
+    </delete>
+    <delete id="deleteAlbum_id" parameterType="String">
+        delete from CMFZ_chapter where album_id=#{album_id}
+    </delete>
+    <update id="update" parameterType="Chapter">
+        update CMFZ_chapter set title=#{title}, size=#{size}, duration=#{duration}, downPath=#{downPath}, uploadTime=#{uploadTime},album_id=#{album_id}  where id=#{id};
+    </update>
+    <select id="queryAll" resultType="Chapter">
+         select id, title, size, duration, downPath, uploadTime, album_id from CMFZ_chapter;
+    </select>
+    <select id="queryById" resultType="Chapter">
+         select id, title, size, duration, downPath, uploadTime, album_id from CMFZ_chapter where id=#{id};
+    </select>
+    <select id="queryTotals" resultType="Long">
+        select content(id) from CMFZ_chapter;
+    </select>
+    <select id="queryAlbum_id"  resultType="Long">
+      select count(album_id) from CMFZ_chapter where album_id=#{id}
+    </select>
+</mapper>

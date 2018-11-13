@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+    <insert id="insert" parameterType="User">
+        insert into CMFZ_user values (#{id},#{phoneNum},#{username},#{password},#{salt},#{province},#{city},#{nickName},#{gender},#{sign},#{headPic},#{status},#{createDate})
+    </insert>
+    <delete id="delete" parameterType="String">
+        delete from CMFZ_user where id=#{id}
+    </delete>
+    <update id="update" parameterType="User">
+        update CMFZ_user set  phoneNum=#{phoneNum},
+                username=#{username}, password=#{password},
+                salt=#{salt}, province=#{province},
+                city=#{city}, nickName=#{nickName},
+                gender=#{gender}, sign=#{sign},
+                headPic=#{headPic}, status=#{status},
+                createDate=#{createDate}
+                where id=#{id}
+    </update>
+    <select id="queryAll" resultType="User">
+        select id, phoneNum, username, password, salt, province, city, nickName, gender, sign, headPic, status, createDate from CMFZ_user
+    </select>
+    <select id="queryOne" parameterType="User" resultType="User">
+         select id, phoneNum, username, password, salt, province, city, nickName, gender, sign, headPic, status, createDate from CMFZ_user
+         where id=#{id}
+    </select>
+    <select id="queryUser" parameterType="User" resultType="User">
+        select id, phoneNum, username, password, salt, province, city, nickName, gender, sign, headPic, status, createDate from CMFZ_user
+         where username=#{username} and password=#{password}
+    </select>
+    <select id="querySalt" parameterType="User" resultType="User">
+        select salt from CMFZ_user
+         where username=#{username}
+    </select>
+    <select id="queryByPage" resultType="User">
+        select id, phoneNum, username, password, salt, province, city, nickName, gender, sign, headPic, status, createDate
+        from CMFZ_user limit #{start},#{rows}
+    </select>
+    <select id="queryTotals" resultType="Long">
+        select count(id) from CMFZ_user
+    </select>
+
+</mapper>
